@@ -1,4 +1,4 @@
-FROM alpine:3.8 as builder
+FROM alpine:latest as builder
 MAINTAINER Arne Neumann <nlpbox.programming@arne.cl>
 
 RUN apk update && \
@@ -24,11 +24,13 @@ RUN wget $(grepurl -r 'zip$' -a http://stanfordnlp.github.io/CoreNLP/) && \
 # This command get's the first model file (at least for English there are two)
 # and extracts its property file.
 WORKDIR /opt/corenlp
-RUN wget $(grepurl -r 'english.*jar$' -a http://stanfordnlp.github.io/CoreNLP | head -n 1)
+RUN wget $(grepurl -r 'english-corenlp.*jar$' -a https://stanfordnlp.github.io/CoreNLP)
+RUN wget $(grepurl -r 'english-kbp-corenlp.*jar$' -a https://stanfordnlp.github.io/CoreNLP)
+RUN wget $(grepurl -r 'chinese-corenlp.*jar$' -a https://stanfordnlp.github.io/CoreNLP)
 
 
 # only keep the things we need to run and test CoreNLP
-FROM alpine:3.8
+FROM alpine:latest
 
 RUN apk update && apk add openjdk8-jre-base py3-pip && \
     pip3 install pytest pexpect requests
