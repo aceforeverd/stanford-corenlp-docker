@@ -40,7 +40,7 @@ COPY --from=builder /opt/corenlp .
 
 ADD test_api.py .
 
-ENV JAVA_XMX 4g
+ENV JAVA_XMX 8g
 ENV PORT 9000
 EXPOSE $PORT
 
